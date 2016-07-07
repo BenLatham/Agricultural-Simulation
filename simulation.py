@@ -8,23 +8,47 @@ import tests
 def simulation(reps=1, year_0=0, year_n=1, start_month=3):
     crop_status, livestock_status, balance = initialise()
     for rep in range (reps):
-        weathergen.choose_file_in_dir()
+        print(test, rep)
+        day_counter = 0
+        data = weathergen.read_wg_file(rep+1)
         for year in range(year_0, year_n):
             for i in range(12):
                 month = (start_month + i) % 12
-                maize.monthly(year, month)
+                maize.monthly(year, month, crop_status)
                 forage.monthly(year, month)
                 dairy.monthly(year, month)
                 financials.monthly(year, month)
+                day_counter +=1
             financials.capital(year)
+
+class CropStatus():
+    def __init__(self):
+        self.age = 0
+        self.growth_stage = -1
+        self.OHU_acumulated = 0
+        self.moisture
+        self.adf
+        self.protein
+        self.fme
+        self.soil = SoilStatus(texture=[25,40,35])
+
+class SoilStatus():
+    def __init__(self, moisture, temp, n, p, k, texture):
+        self.soil_moisture = moisture
+        self.soil_temp = temp
+        self.soil_N = n
+        self.soil_P = p
+        self.soil_K = k
+        self.soil_texture = texture
 
 # 3. Generate starting balance sheets (conventional and non-financial)
 def initialise():
-    crop = (0, 0, 0)
+    crop = CropStatus
     livestock = (0, 0, 0)
     financial = (0, 0, 0)
     return crop, livestock, financial
 
+test = "---"
 try:
     simulation()
 except weathergen.WeatherError as err:

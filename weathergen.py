@@ -3,6 +3,7 @@ import sys
 import os
 import re
 
+test= "---"
 
 # Error class for reporting errors related to reading weather files
 class WeatherError(Exception):
@@ -73,7 +74,6 @@ class Labels:
         self.labels = len(units)
 
 
-
 # a wrapper containing all the other three file metadata classes
 class FileSettings:
     def __init__(self, delimiters=TableDelimiters(),
@@ -97,19 +97,22 @@ def read_wg_file(filenumber):
     prefix = "r_"
     suffix = "_scen_dly"
     extension = ".csv"
-    delim = TableDelimiters( empty_cell="")
+    delim = TableDelimiters(empty_cell="")
     types = DataTypes(types="dt, it, it, it, it, ft, ft, ft, ft, ft, ft, ft, ft, ft")
     lab = Labels(
         headings="year, month, day, day_count, transition, precip_dtotal, temp_dmin, temp_dmax, vapourpressure_dmean, relhum_dmean, sunshine_dtotal, diffradt_dtotal, dirradt_dtotal, pet_dmean",
         units="-, -, -, -, -, mm / day, degC, degC, hPa, %, hours, kWh / m2, kWh / m2, mm / day"
     )
-    wg = FileSettings( delimiters=delim, data_types=types, labels=lab)
+    wg = FileSettings(delimiters=delim, data_types=types, labels=lab)
 
     file = file_path+prefix+'{0:04d}'.format(filenumber)+suffix+extension
+    print(test, file)
     text = open_file(file)
     data = read_file(text, wg)
-    data = transpose([data], 1)
-    return data, lab
+    data = list(zip(*data))
+    data = label(data, lab)
+    return data
+
 
 # reads local weather(lw) from the met office
 # these files have 5 lines of explanatory information
@@ -122,10 +125,10 @@ def read_lw_file():
 
     delim = TableDelimiters(cell_border=r"[\s]{2,}", empty_cell=r"---$")
     lab = Labels(heading_row=5, unit_row=6, data_row=7)
-    lw =FileSettings(delimiters=delim, labels=lab)
+    lw = FileSettings(delimiters=delim, labels=lab)
     data = read_file(text, lw)
     sort_col = lab.headings.index("mm")
-    data = split_by_values(data, sort_col, [1,13])
+    data = split_by_values(data, sort_col, [1, 13])
     data = transpose(data, 12)
     return data
 
@@ -167,7 +170,6 @@ def choose_file_in_dir(directory="./weatherdata"):
 
 
 def open_file(filename):
-    # print(test,filename)
     try:
         data_file = open(filename, "r")
     except OSError:
@@ -175,8 +177,6 @@ def open_file(filename):
     text = data_file.read()
     data_file.close()
     return text
-
-
 
 
 def read_file(text, filetype):
@@ -189,6 +189,7 @@ def read_file(text, filetype):
     data = trim(data, labels)
     report(null_count, error_count, labels)
     return data
+
 
 def remove_markers(text):
     # remove markers
@@ -260,7 +261,7 @@ def split_by_values(data, sort_col, value_range):
     # sort lists by variable in the sorting column (relies on this value being of integer type)
     # such that for each value within the given range a separate list of lists is created
     # if a value in the rage is not found in the sorting column it will result in an empty list
-    data_sorted = [[] for i in range(value_range[0],value_range[1])]
+    data_sorted = [[] for i in range(value_range[0], value_range[1])]
     error_count = 0
     for row in data:
         if value_range[0] <= row[sort_col] < value_range[1]:
@@ -268,8 +269,10 @@ def split_by_values(data, sort_col, value_range):
         elif row[sort_col]:
             error_count += 1
     if error_count:
-        print("Warning:", error_count, "rows were rejected as their values did not fall in the range(",value_range[0],":",value_range[1],")")
+        print("Warning:", error_count, "rows were rejected as their values did not fall in the range(",
+              value_range[0], ":", value_range[1], ")")
     return data_sorted
+
 
 def transpose(data, length):
     # transpose columns to make analysis easier
@@ -289,7 +292,13 @@ def report(null_count, error_count, labels):
         print(labels.headings[i], "=", null_count[i], end="; ")
     print("\n")
 
-# test= "---"
+
+def label(data, labels):
+    labeled_data = {"length": len(data[0]), "units": labels.units, "headings": labels.headings}
+    for i in range(labels.columns):
+        labeled_data[labels.headings[i]] = data[i]
+    return labeled_data
+
 #
 # try:
 #     print(read_lw_file())
