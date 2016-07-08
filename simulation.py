@@ -5,7 +5,8 @@ import dairy
 import financials
 import tests
 
-def simulation(reps=1, year_0=0, year_n=1, start_month=3):
+
+def simulation(reps=1, year_0=3001, year_n=3030, start_month=1):
     crop_status, livestock_status, balance = initialise()
     for rep in range (reps):
         print(test, rep)
@@ -14,11 +15,11 @@ def simulation(reps=1, year_0=0, year_n=1, start_month=3):
         for year in range(year_0, year_n):
             for i in range(12):
                 month = (start_month + i) % 12
-                maize.monthly(year, month, crop_status)
+                month_end, crop_status = maize.monthly(day_counter, crop_status, data)
                 forage.monthly(year, month)
                 dairy.monthly(year, month)
                 financials.monthly(year, month)
-                day_counter +=1
+                day_counter = month_end
             financials.capital(year)
 
 class CropStatus():
