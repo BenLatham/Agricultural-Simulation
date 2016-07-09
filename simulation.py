@@ -22,19 +22,20 @@ def simulation(reps=1, year_0=3001, year_n=3030, start_month=1):
                 day_counter = month_end
             financials.capital(year)
 
+
 class CropStatus():
     def __init__(self):
         self.age = 0
         self.growth_stage = -1
         self.OHU_acumulated = 0
-        self.moisture
-        self.adf
-        self.protein
-        self.fme
+        self.moisture = None
+        self.adf  = None
+        self.protein = None
+        self.fme = None
         self.soil = SoilStatus(texture=[25,40,35])
 
 class SoilStatus():
-    def __init__(self, moisture, temp, n, p, k, texture):
+    def __init__(self, moisture=None, temp=None, n=None, p=None, k=None, texture=None):
         self.soil_moisture = moisture
         self.soil_temp = temp
         self.soil_N = n
@@ -44,7 +45,7 @@ class SoilStatus():
 
 # 3. Generate starting balance sheets (conventional and non-financial)
 def initialise():
-    crop = CropStatus
+    crop = CropStatus()
     livestock = (0, 0, 0)
     financial = (0, 0, 0)
     return crop, livestock, financial
