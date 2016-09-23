@@ -1,0 +1,4 @@
+include Licence.txt
+include README.rst
+recursive-include simulation/processes *
+recursive-include docs *
