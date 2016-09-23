@@ -17,20 +17,24 @@ Contributors to various aspects of this project are welcomed.
 For involvement in docunentation and interface see: https://github.com/BenLatham/FLOSS-Web-app
 
 Key areas of work:
-====================
-  * development of the FLOSS model
+------------------
+
+* development of the FLOSS model
+
+  - e.g. implementing a model determining crop quality based on climate over the growing season
   
-    * e.g. implementing a model determining crop quality based on climate over the growing season
-  * research for the FLOSS model
-  
-    * e.g. research into the best mathematical models to form the basis of the relationship between crop quality and livestock performance.
-  * testing of the FLOSS code
-  
-    * e.g. setting up unit tests
-  * FLOSS Model evaluation
-  
-    * Full project comparing model predictions to actual farm performance.
-  
+* research for the FLOSS model
+
+  - e.g. research into the best mathematical models to form the basis of the relationship between crop quality and livestock performance.
+ 
+* testing of the FLOSS code
+
+  - e.g. setting up unit tests
+ 
+* FLOSS Model evaluation
+
+  - Full project comparing model predictions to actual farm performance.
+ 
 Contact Ben Latham if you want to get involved.
 Constraints: My (Ben Latham's) work on this project is as part of my MSc degree, as such it is important that all work on this project is clearly atributed to whomever carries out said work. In order to facilitate this I would ideally like to discuss the role any contributors will play before they begin work.
 
@@ -41,4 +45,18 @@ wiki: https://github.com/BenLatham/FLOSS-Agricultural-Simulation/wiki
 Licence
 ====================
 MIT, See Licence.txt. However please note that the weathergen data files are not included in this licence - and are included for convenience of testing the system only.
+
+Installation
+====================
+
+Using pip and a virtual environment on linux
+---------------------------------------------
+.. role:: shell(code)
+   :language: shell
+
+* Download the version you wish to install from the /dist/ directory e.g. download floss-agricultural-simulation-0.1.tar.gz
+* Open a terminal, navigate to the directory where you have saved the tar file
+* activate your virtual environment in this terminal
+* run :shell:`pip install filename` where "filename" is the name of the downloaded file
+
 
