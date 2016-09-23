@@ -55,7 +55,7 @@ Using pip and a virtual environment on linux
 ---------------------------------------------
 
 * Download the version you wish to install from the /dist/ directory e.g. download floss-agricultural-simulation-0.1.tar.gz
-* Open a terminal, navigate to the directory where you have saved the tar file
+* Open a terminal and navigate to the directory where you have saved the tar file
 * activate your virtual environment in this terminal
 * run :code:`pip install filename` where "filename" is the name of the downloaded file
 
