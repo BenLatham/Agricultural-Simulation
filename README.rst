@@ -49,14 +49,14 @@ MIT, See Licence.txt. However please note that the weathergen data files are not
 Installation
 ====================
 
+Installation can be carried out as follows:
+
 Using pip and a virtual environment on linux
 ---------------------------------------------
-.. role:: shell(code)
-   :language: shell
 
 * Download the version you wish to install from the /dist/ directory e.g. download floss-agricultural-simulation-0.1.tar.gz
 * Open a terminal, navigate to the directory where you have saved the tar file
 * activate your virtual environment in this terminal
-* run :shell:`pip install filename` where "filename" is the name of the downloaded file
+* run :code:`pip install filename` where "filename" is the name of the downloaded file
 
 
