@@ -1,5 +1,8 @@
 from django.db import models
 
+# table of the units of measure used in this database
+class Units(models.Model):
+    unit = models.CharField(max_length=20)
 
 # holds descriptions of goods and services which may be transferred
 class Goods(models.Model):
@@ -7,16 +10,10 @@ class Goods(models.Model):
     # Units used to measure this item
     units = models.ForeignKey(Units)
 
-
-# table of the units of measure used in this database
-class Units(models.Model):
-    unit = models.CharField(max_length=20)
-
-
 class Accounts(models.Model):
     account_name = models.CharField(max_length=20)
     description = models.TextField()
-    overdraft_interest = models.FloatFieldloatField()
+    overdraft_interest = models.FloatField()
     credit_interest = models.FloatField()
 
 
@@ -37,8 +34,8 @@ class Transactions(models.Model):
 
 
 class Transfers(Transactions):
-    origin = models.ForeignKey(Enterprises)
-    destination = models.ForeignKey(Enterprises)
+    origin = models.ForeignKey(Enterprises, related_name="xfer_out")
+    destination = models.ForeignKey(Enterprises, related_name="xfer_in")
 
 
 class Sales(Transactions):

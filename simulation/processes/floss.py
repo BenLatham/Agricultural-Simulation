@@ -1,8 +1,8 @@
-import weathergen
-import maize
-import forage
-import dairy
-import financials
+from processes import weathergen
+from processes import maize
+from processes import forage
+from processes import dairy
+from processes import financials
 import tests
 
 
