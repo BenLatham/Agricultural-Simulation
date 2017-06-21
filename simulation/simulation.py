@@ -1,41 +1,72 @@
+import os
+
+from . import weathergen
+
+from . import dairy
+from . import financials
+from . import forage
+from . import maize
+
+
 class Scenario():
-    def __init__(self, reps, years, months):
-        self.year=0
-        self.reps =reps
-        self.years=years
-        self.months=months
-        self.crops = Crop()
-        self.forage = Forage()
-        self.livestock = Livestock()
-        self.financial = Financial()
+    def __init__(self, datapath="default", reps=1):
+        self.reps = reps
 
-    def run(self):
-        for rep in range(self.reps):
-            for year in range(self.years):
-                for month in range(self.months):
-                    weather = self.getWeather()
-                    self.crops.newMonth(weather)
-                    self.forage.newMonth(weather)
-                    self.livestock.newMonth(weather)
-                    self.livestock.financial()
+        print(test+"hi!")
+        for rep in range(1, self.reps+1):
+            print(test + "howdy!")
+            data = weathergen.read_wg_file(rep, datapath)
+            print(data.get("headings"))
+
+    def run(self,  year_0=3001, year_n=3030, start_month=1):
+
+        crop_status, livestock_status, balance = initialise()
+        for rep in range (self.reps):
+            print(test, rep)
+            day_counter = 0
+            data = weathergen.read_wg_file(rep + 1)
+            for year in range(year_0, year_n):
+                for i in range(12):
+                    month = (start_month + i) % 12
+                    month_end, crop_status = maize.monthly(day_counter, crop_status, data)
+                    forage.monthly(year, month)
+                    dairy.monthly(year, month)
+                    financials.monthly(year, month)
+                    day_counter = month_end
+                financials.capital(year)
 
 
+class CropStatus():
+    def __init__(self):
+        self.age = 0
+        self.growth_stage = -1
+        self.OHU_acumulated = 0
+        self.moisture = None
+        self.adf  = None
+        self.protein = None
+        self.fme = None
+        self.soil = SoilStatus(texture=[25,40,35])
 
-    def getWeather(self):
-        return 0
+class SoilStatus():
+    def __init__(self, moisture=None, temp=None, n=None, p=None, k=None, texture=None):
+        self.soil_moisture = moisture
+        self.soil_temp = temp
+        self.soil_N = n
+        self.soil_P = p
+        self.soil_K = k
+        self.soil_texture = texture
 
-class Crop():
-    def newMonth(self, weather):
-        self.weather = weather
+# 3. Generate starting balance sheets (conventional and non-financial)
+def initialise():
+    crop = CropStatus()
+    livestock = (0, 0, 0)
+    financial = (0, 0, 0)
+    return crop, livestock, financial
 
-class Forage():
-    def newMonth(self, weather):
-        self.weather = weather
+test = "---"
 
-class Livestock():
-    def newMonth(self, weather):
-        self.weather = weather
-
-class Financial():
-    def newMonth(self):
-        print("recalculating financial balances")
+try:
+    Scenario()
+except weathergen.WeatherError as err:
+    print(err.value, err.info)
+print("done")
