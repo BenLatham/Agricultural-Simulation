@@ -8,4 +8,4 @@ from .accounting_models import Sales
 from .accounting_models import Purchases
 from .weather_models import Dataset
 from .weather_models import WeatherDay
-
+from .diet_models import Feeds
