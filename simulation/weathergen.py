@@ -3,7 +3,7 @@
 import os
 from csvReader import csvReader as csv
 
-from floss.settings import BASE_DIR
+from floss.settings import WEATHER_DIR
 
 test= "---" # print statements preceded with --- are debug statements, these should be deleted in production
 
@@ -29,18 +29,16 @@ def read_wg_file(filenumber, scenario):
     suffix = "_scen_dly"
     extension = ".csv"
     filename = prefix+'{0:04d}'.format(filenumber)+suffix+extension
-    file = os.path.join(BASE_DIR, "simulation", "weather", scenario, filename)
+    file = os.path.join(WEATHER_DIR, scenario, filename)
 
-    delim = csv.TableDelimiters(empty_cell="")
-    types = csv.DataTypes(types="dt, it, it, it, it, ft, ft, ft, ft, ft, ft, ft, ft, ft")
+    types = csv.DataTypes(types=[1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3])
     lab = csv.Labels(
         headings="year, month, day, day_count, transition, precip_dtotal, temp_dmin, temp_dmax, vapourpressure_dmean, relhum_dmean, sunshine_dtotal, diffradt_dtotal, dirradt_dtotal, pet_dmean",
         units="-, -, -, -, -, mm / day, degC, degC, hPa, %, hours, kWh / m2, kWh / m2, mm / day"
     )
-    wg = csv.FileSettings(delimiters=delim, data_types=types, labels=lab)
+    wg = csv.FileSettings(data_types=types, labels=lab)
 
-    text = csv.open_file(file)
-    data = csv.read_file(text, wg)
+    data = csv.read_file(file, wg)
     data = list(zip(*data)) # transpose the data
     data = csv.label(data, lab)
     return data
@@ -55,13 +53,11 @@ def read_lw_file():
     followed by the units for each column blank blank degC degC days mm hours
     followed by the data, which may be marked with # or * in some cases, absent data marked ---
     """
-    file = csv.choose_file_in_dir()
-    text = csv.open_file(file)
-
+    file = csv.choose_file_in_dir(WEATHER_DIR)
     delim = csv.TableDelimiters(cell_border=r"[\s]{2,}", empty_cell=r"---$")
     lab = csv.Labels(heading_row=5, unit_row=6, data_row=7)
     lw = csv.FileSettings(delimiters=delim, labels=lab)
-    data = csv.read_file(text, lw)
+    data = csv.read_file(file, lw)
     sort_col = lab.headings.index("mm")
     data = csv.split_by_values(data, sort_col, [1, 13])
     data = csv.transpose(data, 12)
