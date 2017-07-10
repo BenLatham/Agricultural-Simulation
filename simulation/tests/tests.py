@@ -3,6 +3,7 @@ from unittest import TestCase
 from simulation.dairy import intake
 from simulation.loadFeeds import types_file
 from csvReader.csvReader import read_contents
+from simulation.admin import load_goods
 
 
 class FeedLoaderTestCase(TestCase):
@@ -13,6 +14,9 @@ class FeedLoaderTestCase(TestCase):
         self.assertEquals(processed[1][0], "grass")
         self.assertEquals(processed[2][0], "fat")
 
+class AdminTestCase(TestCase):
+    def test_quick_test(self):
+        self.assertEquals(load_goods(),{"bale","straws","kg","l"})
 
 
 class IntakeTestCase(TestCase):

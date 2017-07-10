@@ -1,5 +1,4 @@
 from django.db import models
-import csv
 
 # table of the units of measure used in this database
 class Units(models.Model):
@@ -16,7 +15,6 @@ class Accounts(models.Model):
     description = models.TextField()
     overdraft_interest = models.FloatField()
     credit_interest = models.FloatField()
-    csv.reader()
 
 
 class Enterprises(models.Model):
