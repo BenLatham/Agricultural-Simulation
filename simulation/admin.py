@@ -13,6 +13,7 @@ def load_goods():
     goods = csv.CsvFile(fields=fields, filepath=goods_file)
     goods.read_file()
     units ={record[1] for record in goods.data}
+
     return units
 
 
