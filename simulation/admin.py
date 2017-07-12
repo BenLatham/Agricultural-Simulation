@@ -13,7 +13,10 @@ def load_goods():
     goods = csv.CsvFile(fields=fields, filepath=goods_file)
     goods.read_file()
     units ={record[1] for record in goods.data}
-
+    data = [Units(unit=unit) for unit in units]
+    for record in data:
+        record.full_clean()
+    Units.objects.bulk_create(data)
     return units
 
 

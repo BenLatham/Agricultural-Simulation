@@ -3,13 +3,13 @@ TODO:
     - find original references
     - find formulas for protein requirements
     - complete diet calculation
-
-
 """
 
 import math
-test = "---"
+#from dairy_py import requirements
 
+
+test = "---"
 def calculateDiet():
     a=0
 

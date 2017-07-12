@@ -6,17 +6,18 @@ from . import dairy
 from . import financials
 from . import forage
 from . import maize
+from . import admin
 from csvReader.csvReader import CsvReadError
 
 
 class Scenario():
     def __init__(self, datapath="default", reps=1):
         self.reps = reps
-
+        admin.load_goods()
         #print(test+"hi!")
-        for rep in range(1, self.reps+1):
+        #for rep in range(1, self.reps+1):
             #print(test + "howdy!")
-            data = weathergen.read_wg_file(rep, datapath)
+            #data = weathergen.read_wg_file(rep, datapath)
             #print(data.get("headings"))
 
     def run(self,  year_0=3001, year_n=3030, start_month=1):
@@ -25,15 +26,15 @@ class Scenario():
         for rep in range (self.reps):
             #print(test, rep)
             day_counter = 0
-            data = weathergen.read_wg_file(rep + 1)
+            #data = weathergen.read_wg_file(rep + 1)
             for year in range(year_0, year_n):
                 for i in range(12):
                     month = (start_month + i) % 12
-                    month_end, crop_status = maize.monthly(day_counter, crop_status, data)
+                    #month_end, crop_status = maize.monthly(day_counter, crop_status, data)
                     forage.monthly(year, month)
                     dairy.monthly(year, month)
                     financials.monthly(year, month)
-                    day_counter = month_end
+                    #day_counter = month_end
                 financials.capital(year)
 
 
