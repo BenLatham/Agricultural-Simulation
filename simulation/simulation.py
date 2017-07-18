@@ -7,22 +7,28 @@ from . import financials
 from . import forage
 from . import maize
 from . import admin
+from . import models
 from csvReader.csvReader import CsvReadError
+import time
 
 
 class Scenario():
-    def __init__(self, datapath="default", reps=1):
+
+    def __init__(self, user, datapath="default", reps=1):
+        self.scenario = models.Scenario(user=user)
+        self.scenario.full_clean()
+        self.scenario.save()
         self.reps = reps
-        admin.load_goods()
-        #print(test+"hi!")
+        admin.load_goods(self.scenario)
+        print(test+"hi!")
         #for rep in range(1, self.reps+1):
             #print(test + "howdy!")
             #data = weathergen.read_wg_file(rep, datapath)
             #print(data.get("headings"))
 
     def run(self,  year_0=3001, year_n=3030, start_month=1):
-
         crop_status, livestock_status, balance = initialise()
+        #time.sleep(2)
         for rep in range (self.reps):
             #print(test, rep)
             day_counter = 0
@@ -66,9 +72,3 @@ def initialise():
     return crop, livestock, financial
 
 test = "---"
-
-try:
-    Scenario()
-except CsvReadError as err:
-    print(err.value, err.info)
-print("done")

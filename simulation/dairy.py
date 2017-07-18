@@ -14,7 +14,8 @@ def calculateDiet():
     a=0
 
 def monthly(year, month):
-    print (test,"cows go moo in %2d/%d" %(month, year))
+    a=0
+    # print (test,"cows go moo in %2d/%d" %(month, year))
 
 def metabolisableProtein(FME, ERDP, DUP, targetYield):
     """

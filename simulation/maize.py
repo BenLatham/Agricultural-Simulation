@@ -6,7 +6,7 @@ test = "---"
 def monthly(day_counter, crop_status, data):
     month = data["month"][day_counter]
     days = 0
-    print(test,"Maize grows tall in %2d/%d" %(month, data["year"][day_counter]))
+    # print(test,"Maize grows tall in %2d/%d" %(month, data["year"][day_counter]))
     function = functools.partial(planting)
     while data["month"][day_counter] == month:
         soil_temp(crop_status,data, day_counter)

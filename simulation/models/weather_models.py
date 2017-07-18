@@ -1,8 +1,10 @@
 from django.db import models
+from .general_models import Scenario
 
 # A set of data generated at one time
 # consists of multiple runs so as to replicate the simulation
 class Dataset(models.Model):
+    scenario = models.ForeignKey(Scenario)
     #parent_dataset = models.CharField(max_length=20)
     #version = models.CharField(max_length=20)
     #emissions_scenario = models.CharField(max_length=20)
