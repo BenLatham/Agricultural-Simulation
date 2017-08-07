@@ -1,6 +1,8 @@
 import os
-from csvReader import csvReader as csv
-from floss.settings import FEEDS_DIR
+import csvReader.csvReader as csv
+
+from django.conf import settings
+FEEDS_DIR = settings.FEEDS_DIR
 
 def read_feed_types():
     return read("types.csv", types_file())

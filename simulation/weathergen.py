@@ -1,9 +1,9 @@
 # read average weather data and generate realistic random weather
 
 import os
-from csvReader import csvReader as csv
-
-from floss.settings import WEATHER_DIR
+import csvReader.csvReader as csv
+from django.conf import settings
+WEATHER_DIR = settings.WEATHER_DIR
 
 test= "---" # print statements preceded with --- are debug statements, these should be deleted in production
 

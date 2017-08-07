@@ -1,7 +1,9 @@
 import csvReader.csvReader2 as csv
 import itertools
 import os
-from floss.settings import COSTS_DIR
+from django.conf import settings
+COSTS_DIR = settings.COSTS_DIR
+
 from simulation.models.accounting_models import Units, Goods, Enterprises, Accounts,\
     AccountsCustomer, AccountsSupplier, AccountsCurrent, AccountsLoans, TradesSheet, Prices
 
