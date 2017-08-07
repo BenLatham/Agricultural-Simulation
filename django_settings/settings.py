@@ -35,7 +35,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'simulation.apps.SimulationConfig',
-    'bootstrapform', #django-bootstrap-form https://pypi.python.org/pypi/django-bootstrap-form
     'django.contrib.admin',
     'django.contrib.auth', #dajango-registration
     'django.contrib.contenttypes',
