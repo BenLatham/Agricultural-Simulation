@@ -1,13 +1,13 @@
 import os
 
-from . import weathergen
+import simulation.weathergen as weathergen
 
-from . import dairy
-from . import financials
-from . import forage
-from . import maize
-from . import admin
-from . import models
+import simulation.dairy as dairy
+import simulation.financials as financials
+import simulation.forage as forage
+import simulation.maize as maize
+import simulation.admin as admin
+import simulation.models as models
 from csvReader.csvReader import CsvReadError
 import time
 
@@ -19,7 +19,8 @@ class Scenario():
         self.scenario.full_clean()
         self.scenario.save()
         self.reps = reps
-        admin.load_goods(self.scenario)
+        a= admin.Admin(self.scenario)
+        a.setup()
         print(test+"hi!")
         #for rep in range(1, self.reps+1):
             #print(test + "howdy!")
