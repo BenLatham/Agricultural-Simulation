@@ -1,4 +1,4 @@
-python_version >= 3.0
+python_version >= "3.0"
 Django >= 1.1
 django-registration >= 2.2
 -e git+https://github.com/BenLatham/CSV-reader.git#egg=csvReader
