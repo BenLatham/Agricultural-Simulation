@@ -1,0 +1,2 @@
+floss-agricultural-simulation
+Django >= 1.1
