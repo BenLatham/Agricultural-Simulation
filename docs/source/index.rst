@@ -12,6 +12,9 @@ Contents:
    :maxdepth: 2
 
 
+   docs-static/intro
+   docs-static/cattle
+   docs-static/sources
    modules
 
 
