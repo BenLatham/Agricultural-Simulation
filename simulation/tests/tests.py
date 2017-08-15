@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from simulation.dairy import intake
+from simulation.dairy_herd import intake
 from simulation.loadFeeds import types_file
 from csvReader.csvReader import read_contents
 from simulation.admin import Admin

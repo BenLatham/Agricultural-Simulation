@@ -8,9 +8,14 @@ class Feeds(models.Model):
     fme = models.FloatField()
     erdp = models.FloatField()
     dup = models.FloatField()
-    qm = models.FloatField()
+    adf = models.FloatField()
     feed_type = models.ForeignKey('FeedTypes', limit_choices_to={'scenario':scenario})
     maxInclusion = models.FloatField(null=True)
+
+    def qm_ruminant(self):
+        """
+        :return: ratio of metabolisable energy to gross energy
+        """
 
 class FeedTypes(models.Model):
     scenario = models.ForeignKey(Scenario)

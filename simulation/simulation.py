@@ -2,7 +2,7 @@ import os
 
 import simulation.weathergen as weathergen
 
-import simulation.dairy as dairy
+import simulation.dairy_herd as dairy
 import simulation.financials as financials
 import simulation.forage as forage
 import simulation.maize as maize
