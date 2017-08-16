@@ -1,13 +1,10 @@
 import math
-from simulation.models.diet_models import BreedDetails
-from scipy.cluster.vq import kmeans
 from abc import ABCMeta, abstractmethod
 import numpy.random as rand
 import inspect
 
 KG_PER_LB = 0.453592
 MJ_PER_MCAL = 4.184
-
 
 class Cow:
     __metaclass__ = ABCMeta
@@ -39,28 +36,29 @@ class Cow:
         """liveweight kg"""
         return self._weight
 
-    @abstractmethod
+
     @property
+    @abstractmethod
     def milk_yield(self):
         """expected milk yield in kg for the current day"""
 
-    @abstractmethod
     @property
+    @abstractmethod
     def milk_protein(self):
         """% true protein in the milk by weight at the current day"""
 
-    @abstractmethod
     @property
+    @abstractmethod
     def milk_fat(self):
         """% fat in the milk by weight at the current day"""
 
-    @abstractmethod
     @property
+    @abstractmethod
     def protein_requirement(self):
         """protein requirement g/day"""
 
-    @abstractmethod
     @property
+    @abstractmethod
     def energy_requirement(self):
         """energy requirement mj/day"""
 
@@ -406,14 +404,38 @@ class Dist:
         self.stddev = standard_deviation
 
 class Herd:
+    """
+    data structure containing a group of cow objects,
+    and methods for creating such a group
+    """
     def __init__(self, cow_type):
         self.cow_type = cow_type
+        self.groups = []
 
     def load_from_csv(self):
         raise NotImplementedError
 
-    def generate(self, **params):
-        print(inspect.signature(self.cow_type.__init__).parameters)
+    def generate(self, number, **params):
+        expected_params = inspect.signature(self.cow_type).parameters
+        data ={}
+        group =[]
+        for key, value in expected_params.items():
+            print(key)
+            try:
+                param = params[key]
+            except KeyError:
+                if value.default == inspect.Parameter.empty:
+                    raise ValueError('"'+key+'" is a required parameter')
+            data[key] = self._random_data(param, number)
+
+        for index in range(number):
+            cow_params ={key:value[index]for key, value in data.items()}
+            group.append(self.cow_type(**cow_params))
+        self.groups.append(group)
+
+    def _random_data(self, dist, number):
+        return rand.normal(dist.mean, dist.stddev, number)
+
 
 
 def monthly(year, month):

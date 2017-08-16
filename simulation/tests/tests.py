@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from simulation.dairy_herd import intake
+from simulation.dairy_herd import Herd, Dist
+from simulation.dairy_group import group
 from simulation.loadFeeds import types_file
 from csvReader.csvReader import read_contents
 from simulation.admin import Admin
 import simulation.models as models
+from scipy.cluster.vq import ClusterError
 
 
 class FeedLoaderTestCase(TestCase):
@@ -27,8 +29,16 @@ class AdminTestCase(TestCase):
     def test_quick_test(self):
         self.assertEquals(True,True)
 
+class DietTestCase(TestCase):
+    def setUp(self):
+        self.herd = Herd(DummyCow)
+        self.herd.generate(10, e=Dist(30,2), p=Dist(34,4))
 
-class IntakeTestCase(TestCase):
-    def test_intake_with_concentrate(self):
-        self.assertAlmostEqual(intake(0.45, 450.0, 1.0, 26.0), 13.84,2)
+    def test_group(self):
+        self.assertRaises(ClusterError, lambda: group(self.herd, 11))
 
+
+class DummyCow:
+    def __init__(self, e, p):
+        self.energy_requirement = e
+        self.protein_requirement = p
