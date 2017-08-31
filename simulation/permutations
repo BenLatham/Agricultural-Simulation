@@ -1,0 +1,55 @@
+def variable_sets(coefficients, s):
+    p = list(permutations(len(coefficients), s))
+    print(p)
+    p.sort(key=lambda x: function_output(coefficients, list(x)))
+    return p
+
+
+def permutations(n, s):
+    if n == 1:y
+        yield (s,)
+    else:
+        for i in range(s + 1):
+            for j in permutations(n - 1, s - i):
+                yield (i,) + j
+
+
+def function_output(coefficients, variables):
+    s =sum(x*y for x, y in list(zip(coefficients, variables)))
+    print(s, end=", ")
+    return s
+
+print("\n",variable_sets([1, 2], 4))
+
+
+
+def perms3ordered(coeff):
+    coeff.sort()
+    # [3,0,0][2,1,0][2,0,1][1,2,0][1,1,1][1,0,2][0,3,0][0,2,1][0,1,2][0,0,3]
+    yield [3,0,0]
+    yield [2,1,0]
+    # [2,0,1][1,2,0][1,1,1][1,0,2][0,3,0][0,2,1][0,1,2][0,0,3]
+    if coeff[0]+coeff[2]>2*coeff[1]:
+        yield [1,2,0]
+        #[2, 0, 1][1, 1, 1][1, 0, 2][0, 3, 0][0, 2, 1][0, 1, 2][0, 0, 3]
+        if 2*coeff[0]+coeff[2]>3*coeff[1]: # given a<b<c and a+c>2b : 2a+c>3b is not implied :(
+            yield [0, 3, 0]
+            yield [2, 0, 1]
+        else:
+            yield [2, 0, 1]
+            yield [0, 3, 0]
+    else:
+        yield [2,0,1]
+        yield [1,2,0]
+        yield [0, 3, 0]
+    yield [1, 1, 1]
+    yield [0, 2, 1]
+    yield [1, 0, 2]
+    yield [0, 1, 2]
+    yield [0, 0, 3]
+
+
+def printout(c):
+    for i in perms3ordered(c):
+        print(i[0]*c[0]+i[1]*c[1]+i[2]*c[2])
+        print(i)

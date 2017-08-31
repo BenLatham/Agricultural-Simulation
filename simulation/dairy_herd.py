@@ -304,7 +304,6 @@ class CowAfrc(Cow):
         """energy requirement mj/day"""
         return self._energy_requirement()
 
-    @property
     def intake(self, concentrate=0):
         """
         source AFRC

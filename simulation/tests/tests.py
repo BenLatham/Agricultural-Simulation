@@ -4,7 +4,7 @@ from simulation.dairy_herd import Herd, Dist
 from simulation.dairy_group import group
 from simulation.loadFeeds import types_file
 from csvReader.csvReader import read_contents
-from simulation.admin import Admin
+from simulation.farm_admin import Admin
 import simulation.models as models
 from scipy.cluster.vq import ClusterError
 

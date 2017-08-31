@@ -6,7 +6,7 @@ import simulation.dairy_herd as dairy
 import simulation.financials as financials
 import simulation.forage as forage
 import simulation.maize as maize
-import simulation.admin as admin
+import simulation.farm_admin as admin
 import simulation.models as models
 from csvReader.csvReader import CsvReadError
 import time
