@@ -6,9 +6,7 @@ class FeedStock:
         self.feed = feed
         # se
 
-class CropPcse:
-    def __init__(self, **kwargs):
-        
+
 
 
 
