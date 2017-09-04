@@ -1,6 +1,7 @@
 import math
 from abc import ABCMeta, abstractmethod
 import numpy.random as rand
+import scipy.stats as stats
 import inspect
 
 KG_PER_LB = 0.453592
@@ -398,9 +399,11 @@ class CowAfrc(Cow):
         return 1.01*self._birth_weight() * tp * exponential_term
 
 class Dist:
-    def __init__(self, mean, standard_deviation):
+    def __init__(self, mean, standard_deviation, minimum=None, randomise=True):
         self.mean = mean
         self.stddev = standard_deviation
+        self.minimum =minimum
+        self.randomise = randomise
 
 class Herd:
     """
@@ -419,13 +422,16 @@ class Herd:
         data ={}
         group =[]
         for key, value in expected_params.items():
-            print(key)
+            # print(key)
             try:
                 param = params[key]
             except KeyError:
                 if value.default == inspect.Parameter.empty:
                     raise ValueError('"'+key+'" is a required parameter')
-            data[key] = self._random_data(param, number)
+            if param.randomise:
+                data[key] = self._random_data(param, number)
+            else:
+                data[key] = [param for i in range(number)]
 
         for index in range(number):
             cow_params ={key:value[index]for key, value in data.items()}
@@ -433,7 +439,16 @@ class Herd:
         self.groups.append(group)
 
     def _random_data(self, dist, number):
-        return rand.normal(dist.mean, dist.stddev, number)
+        if dist.minimum is None:
+            return rand.normal(dist.mean, dist.stddev, number)
+        else:
+            return [self._truncated_normal(dist.mean, dist.stddev,dist.minimum) for i in range(number)]
+
+    def _truncated_normal(self, mean, sigma, minimum):
+        x = rand.normal(mean, sigma, 1)
+        if x < minimum:
+            x = self._truncated_normal(mean, sigma, minimum)
+        return x
 
 
 
